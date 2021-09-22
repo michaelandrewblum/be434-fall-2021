@@ -1,7 +1,7 @@
 # Python cat
 
 Write a Python version of the `cat` command that will _conCATenate_ files.
-The program should the following arguments:
+The program should take the following arguments:
 
 * One or more filenames as positional arguments
 * An optional `-n` or `--number` argument for whether or not to print line numbers
