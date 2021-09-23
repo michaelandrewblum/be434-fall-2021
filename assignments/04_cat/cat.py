@@ -51,7 +51,7 @@ def main():
 # def main():
 #     """Concatenate using Enumerate"""
 
-#     # Just trying to see if I could do this using the Enumerate 
+#     # Just trying to see if I could do this using the Enumerate
 #     # as suggested in the README.md
 
 #     args = get_args()
@@ -59,16 +59,14 @@ def main():
 #     text_lines = []
 
 #     for arg in args.files:
-        
+
 #         vals = []
-        
+
 #         for line in arg:
 #             vals.append(arg)
 #             text_lines.append(vals)
-    
+
 #     list(enumerate(text_lines))
-        
-        
 
 
 # --------------------------------------------------
