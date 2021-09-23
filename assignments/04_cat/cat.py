@@ -48,25 +48,25 @@ def main():
             line_num += 1
 
 
-def main():
-    """Concatenate using Enumerate"""
+# def main():
+#     """Concatenate using Enumerate"""
 
-    # Just trying to see if I could do this using the Enumerate 
-    # as suggested in the README.md
+#     # Just trying to see if I could do this using the Enumerate 
+#     # as suggested in the README.md
 
-    args = get_args()
+#     args = get_args()
 
-    text_lines = []
+#     text_lines = []
 
-    for arg in args.files:
+#     for arg in args.files:
         
-        vals = []
+#         vals = []
         
-        for line in arg:
-            vals.append(arg)
-            text_lines.append(vals)
+#         for line in arg:
+#             vals.append(arg)
+#             text_lines.append(vals)
     
-    list(enumerate(text_lines))
+#     list(enumerate(text_lines))
         
         
 
