@@ -14,7 +14,7 @@ def get_args():
     """Get command-line arguments"""
 
     parser = argparse.ArgumentParser(
-        description='Concatentate files',
+        description='Python cat',
         formatter_class=argparse.ArgumentDefaultsHelpFormatter)
 
     parser.add_argument('files',
@@ -22,11 +22,11 @@ def get_args():
                         type=argparse.FileType('rt'),
                         nargs='+',
                         default=[sys.stdin],
-                        help='Files to concatenate')
+                        help='Input file(s)')
 
     parser.add_argument('-n',
                         '--number',
-                        help='If true, print line numbers, otherwise do not.',
+                        help='Number the lines',
                         action='store_true')
 
     return parser.parse_args()
@@ -46,6 +46,29 @@ def main():
             else:
                 print(line.rstrip())
             line_num += 1
+
+
+def main():
+    """Concatenate using Enumerate"""
+
+    # Just trying to see if I could do this using the Enumerate 
+    # as suggested in the README.md
+
+    args = get_args()
+
+    text_lines = []
+
+    for arg in args.files:
+        
+        vals = []
+        
+        for line in arg:
+            vals.append(arg)
+            text_lines.append(vals)
+    
+    list(enumerate(text_lines))
+        
+        
 
 
 # --------------------------------------------------

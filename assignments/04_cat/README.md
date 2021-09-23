@@ -136,7 +136,7 @@ $ ./cat.py -n inputs/fox.txt inputs/spiders.txt
 
 ## Hints
 
-Your program will need to `for` loops:
+Your program will need two `for` loops:
 
 1. The first `for` loop will iterate over the file arguments
 2. The second `for` loop will iterate over the lines in each file
