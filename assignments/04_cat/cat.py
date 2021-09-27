@@ -33,40 +33,33 @@ def get_args():
 
 
 # --------------------------------------------------
+# def main():
+#     """Concatenate files"""
+#
+    # args = get_args()
+
+    # for arg in args.files:
+    #     line_num = 1
+    #     for line in arg:
+    #         if args.number:
+    #             print('{:6}{}{}'.format(line_num, '\t', line.rstrip()))
+    #         else:
+    #             print(line.rstrip())
+    #         line_num += 1
+
+
+# --------------------------------------------------
 def main():
-    """Concatenate files"""
+    """Concatenate files with enumerate"""
 
     args = get_args()
 
     for arg in args.files:
-        line_num = 1
-        for line in arg:
+        for line_num, line in enumerate(arg, start=1):
             if args.number:
                 print('{:6}{}{}'.format(line_num, '\t', line.rstrip()))
             else:
                 print(line.rstrip())
-            line_num += 1
-
-
-# def main():
-#     """Concatenate using Enumerate"""
-
-#     # Just trying to see if I could do this using the Enumerate
-#     # as suggested in the README.md
-
-#     args = get_args()
-
-#     text_lines = []
-
-#     for arg in args.files:
-
-#         vals = []
-
-#         for line in arg:
-#             vals.append(arg)
-#             text_lines.append(vals)
-
-#     list(enumerate(text_lines))
 
 
 # --------------------------------------------------
