@@ -40,10 +40,10 @@ def main():
 
         line_num, word_num, char_num = 0, 0, 0
         for line in arg:
+
             line_num += 1
             word_num += len(line.split())
-            for __ in line:
-                char_num += 1
+            char_num += len(line)
 
         total_lines += line_num
         total_words += word_num
