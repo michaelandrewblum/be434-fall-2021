@@ -32,6 +32,7 @@ def get_args():
     return parser.parse_args()
 
 
+
 # --------------------------------------------------
 # def main():
 #     """Concatenate files"""
@@ -60,6 +61,8 @@ def main():
                 print('{:6}{}{}'.format(line_num, '\t', line.rstrip()))
             else:
                 print(line.rstrip())
+        print(type(arg.read()))
+    
 
 
 # --------------------------------------------------

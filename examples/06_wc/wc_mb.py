@@ -19,7 +19,7 @@ def get_args():
 
     parser.add_argument('files',
                         metavar='FILES',
-                        nargs='+',
+                        nargs='*',
                         type=argparse.FileType('rt'),
                         default=[sys.stdin],
                         help='Input file(s)')
@@ -34,20 +34,32 @@ def main():
     args = get_args()
     total_lines, total_words, total_chars = 0, 0, 0
 
+    # print(f'{'lines':>8}{'words':>8}{'chars':>8} {'file name'}'
+
     for arg in args.files:
 
         line_num, word_num, char_num = 0, 0, 0
         for line in arg:
             line_num += 1
             word_num += len(line.split())
-            for char in line:
+            for __ in line:
                 char_num += 1
 
         total_lines += line_num
         total_words += word_num
         total_chars += char_num
 
-        print('{:8}{:8}{:8} {}'.format(line_num, word_num, char_num, arg.name))
+        print('{:8}{:8}{:8} {}'.format(line_num,
+                                       word_num,
+                                       char_num,
+                                       arg.name))
+
+    if len(args.files) >= 2:
+
+        print('{:8}{:8}{:8} {}'.format(total_lines,
+                                       total_words,
+                                       total_chars,
+                                       'total'))
 
 
 # --------------------------------------------------
