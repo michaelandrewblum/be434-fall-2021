@@ -6,7 +6,7 @@ Purpose: Translate DNA/RNA to AA
 """
 
 import argparse
-import sys
+
 
 # --------------------------------------------------
 def get_args():
@@ -23,7 +23,8 @@ def get_args():
     parser.add_argument('-o',
                         '--outfile',
                         help='Output filename',
-                        action='store_true',
+                        metavar='FILE',
+                        type=argparse.FileType('wt'),
                         default='out.txt')
 
     parser.add_argument('-c',
@@ -51,11 +52,11 @@ def main():
 
     # break input text into codons
     n = 3
-    codon_list = [args.text.upper()[i:i+n] for i in range(0, len(args.text), n)]
+    codon_lst = [args.text.upper()[i:i+n] for i in range(0, len(args.text), n)]
 
     # translate codons
     translation = []
-    for codon in codon_list:
+    for codon in codon_lst:
         if codon in lookup:
             translation.append(lookup[codon])
         else:
@@ -64,13 +65,11 @@ def main():
     translate_str = ''.join(translation)
 
     # write translation to output file
-    out_fh = open('out.txt', 'wt') if args.outfile else sys.stdout
-    out_fh.write(translate_str)
-    out_fh.close()
+    with open(args.outfile.name, 'wt', encoding='utf-8') as out_fh:
+        out_fh.write(translate_str)
+        out_fh.close()
 
-    print(f'Output written to "{args.outfile}".')
-        
-
+    print(f'Output written to "{args.outfile.name}".')
 
 
 # --------------------------------------------------
