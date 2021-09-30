@@ -20,13 +20,6 @@ def get_args():
                         metavar='str',
                         help='DNA/RNA sequence')
 
-    parser.add_argument('-o',
-                        '--outfile',
-                        help='Output filename',
-                        metavar='FILE',
-                        type=argparse.FileType('wt'),
-                        default='out.txt')
-
     parser.add_argument('-c',
                         '--codons',
                         help='A file with codon translations',
@@ -34,6 +27,13 @@ def get_args():
                         required=True,
                         type=argparse.FileType('rt'),
                         default=None)
+
+    parser.add_argument('-o',
+                        '--outfile',
+                        help='Output filename',
+                        metavar='FILE',
+                        type=argparse.FileType('wt'),
+                        default='out.txt')
 
     return parser.parse_args()
 
@@ -57,10 +57,12 @@ def main():
     # translate codons
     translation = []
     for codon in codon_lst:
-        if codon in lookup:
-            translation.append(lookup[codon])
-        else:
-            translation.append('-')
+        # if codon in lookup:
+        #     translation.append(lookup[codon])
+        # else:
+        #     translation.append('-')
+
+        translation.append(lookup.get(codon, '-'))
 
     translate_str = ''.join(translation)
 
