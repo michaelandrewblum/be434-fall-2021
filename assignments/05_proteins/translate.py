@@ -67,9 +67,11 @@ def main():
     translate_str = ''.join(translation)
 
     # write translation to output file
-    with open(args.outfile.name, 'wt', encoding='utf-8') as out_fh:
-        out_fh.write(translate_str)
-        out_fh.close()
+    # with open(args.outfile.name, 'wt', encoding='utf-8') as out_fh:
+    #     out_fh.write(translate_str)
+    #     out_fh.close()
+
+    print(translate_str, file=args.outfile)
 
     print(f'Output written to "{args.outfile.name}".')
 
