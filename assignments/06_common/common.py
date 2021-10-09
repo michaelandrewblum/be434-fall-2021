@@ -32,7 +32,7 @@ def get_args():
                         '--outfile',
                         help='Output file',
                         metavar='FILE',
-                        type=argparse.FileType('rt'),
+                        type=argparse.FileType('wt'),
                         default=[sys.stdout])
 
     return parser.parse_args()
@@ -40,29 +40,34 @@ def get_args():
 
 # --------------------------------------------------
 def main():
-    """Make a jazz noise here"""
+    """Common words between files"""
 
     args = get_args()
 
-    list_file1 = []
-    list_file2 = []
+    word_list_file1 = []
+    word_list_file2 = []
 
+    # Create list of unique words in first file
     for line in args.FILE1:
-        # line = line.translate(str.maketrans('', '', string.punctuation))
-        list_file1.extend(line.rsplit())
-    list_file1 = list(set(list_file1))
-    list_file1.sort()
-    # print(list_file1)
 
+        # line = line.translate(str.maketrans('', '', string.punctuation))
+
+        word_list_file1.extend(line.rsplit())
+    word_list_file1 = list(set(word_list_file1))
+    word_list_file1.sort()
+
+    # Create list of unique words in second file
     for line in args.FILE2:
-        # line = line.translate(str.maketrans('', '', string.punctuation))
-        list_file2.extend(line.rsplit())
-    list_file2 = list(set(list_file2))
-    list_file2.sort()
-    # print(set(list_file2))
 
-    for word in list_file1:
-        if word in list_file2:
+        # line = line.translate(str.maketrans('', '', string.punctuation))
+
+        word_list_file2.extend(line.rsplit())
+    word_list_file2 = list(set(word_list_file2))
+    word_list_file2.sort()
+
+    # Print list of words common between both files
+    for word in word_list_file1:
+        if word in word_list_file2:
             print(word)
 
 
