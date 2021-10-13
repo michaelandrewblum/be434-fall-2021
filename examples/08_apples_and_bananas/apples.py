@@ -2,7 +2,7 @@
 """
 Author : michaelblum <michaelblum@localhost>
 Date   : 2021-10-04
-Purpose: Rock the Casbah
+Purpose: Apples and Bananas
 """
 
 import argparse
@@ -27,15 +27,15 @@ def get_args():
                         metavar='vowel',
                         type=str,
                         default='a',
-                        choices=list('aeiou'))
+                        choices=list('aeiouAEIOU'))
 
     args = parser.parse_args()
 
     if os.path.isfile(args.text):
-        args.text = open(args.text).read().rstrip()
+        with open(args.text, 'rt', encoding='utf-8') as fh:
+            args.text = fh.read().rstrip()
 
     return args
-
 
 
 # --------------------------------------------------
@@ -44,11 +44,12 @@ def main():
 
     args = get_args()
     vowel = args.vowel
-    text = [vowel if c in 'aeiou' else vowel.upper() if c in 'AEIOU' else c for c in args.text]
+    text = [
+            vowel if c in 'aeiou' else vowel.upper()
+            if c in 'AEIOU' else c for c in args.text
+    ]
 
     print(''.join(text))
-
-
 
 
 # --------------------------------------------------

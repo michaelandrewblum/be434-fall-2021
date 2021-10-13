@@ -7,7 +7,6 @@ Purpose: Common Words
 
 import argparse
 import sys
-# import string
 
 
 # --------------------------------------------------
@@ -33,7 +32,7 @@ def get_args():
                         help='Output file',
                         metavar='FILE',
                         type=argparse.FileType('wt'),
-                        default=[sys.stdout])
+                        default=sys.stdout)
 
     return parser.parse_args()
 
@@ -50,16 +49,12 @@ def main():
     # Create list of unique words in first file
     for line in args.FILE1:
 
-        # line = line.translate(str.maketrans('', '', string.punctuation))
-
         word_list_file1.extend(line.rsplit())
     word_list_file1 = list(set(word_list_file1))
     word_list_file1.sort()
 
     # Create list of unique words in second file
     for line in args.FILE2:
-
-        # line = line.translate(str.maketrans('', '', string.punctuation))
 
         word_list_file2.extend(line.rsplit())
     word_list_file2 = list(set(word_list_file2))
@@ -68,7 +63,7 @@ def main():
     # Print list of words common between both files
     for word in word_list_file1:
         if word in word_list_file2:
-            print(word)
+            print(word, file=args.outfile)
 
 
 # --------------------------------------------------
