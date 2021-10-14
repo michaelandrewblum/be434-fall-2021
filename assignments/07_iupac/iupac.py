@@ -56,7 +56,7 @@ def main():
         seq = seq.upper()
         regex = ''
         for char in seq:
-            regex += iupac_dict.get(char, '#')
+            regex += iupac_dict.get(char)
         print(seq, regex, file=args.outfile)
 
     if os.path.isfile(args.outfile.name):
