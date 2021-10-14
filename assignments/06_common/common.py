@@ -2,7 +2,7 @@
 """
 Author : michaelblum <michaelblum@localhost>
 Date   : 2021-10-06
-Purpose: Common Words
+Purpose: Find Common Words
 """
 
 import argparse
@@ -43,27 +43,18 @@ def main():
 
     args = get_args()
 
-    word_list_file1 = []
-    word_list_file2 = []
+    words_file1 = set()
+    words_file2 = set()
 
     # Create list of unique words in first file
     for line in args.FILE1:
-
-        word_list_file1.extend(line.rsplit())
-    word_list_file1 = list(set(word_list_file1))
-    word_list_file1.sort()
+        words_file1.update(line.split())
 
     # Create list of unique words in second file
     for line in args.FILE2:
+        words_file2.update(line.split())
 
-        word_list_file2.extend(line.rsplit())
-    word_list_file2 = list(set(word_list_file2))
-    word_list_file2.sort()
-
-    # Print list of words common between both files
-    for word in word_list_file1:
-        if word in word_list_file2:
-            print(word, file=args.outfile)
+    print('\n'.join(words_file1.intersection(words_file2)), file=args.outfile)
 
 
 # --------------------------------------------------
