@@ -40,7 +40,7 @@ def get_args():
                 invalid.add(char)
 
     if len(invalid) != 0:
-        parser.error(f'Unknown character(s) {sorted(invalid)} in input sequence')
+        parser.error(f'Unknown char(s) {sorted(invalid)} in input sequence')
 
     return args
 
