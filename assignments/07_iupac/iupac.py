@@ -30,7 +30,15 @@ def get_args():
                         type=argparse.FileType('wt'),
                         default=sys.stdout)
 
-    return parser.parse_args()
+    args = parser.parse_args()
+
+    for seq in args.SEQ:
+        seq = seq.upper()
+        for char in seq:
+            if char not in 'ACGTURYSWKMBDHVN':
+                parser.error(f'Unknown character ("{char}") in input sequence')
+
+    return args
 
 
 # --------------------------------------------------
@@ -43,12 +51,6 @@ def main():
                   'R': '[AG]', 'Y': '[CT]', 'S': '[GC]', 'W': '[AT]',
                   'K': '[GT]', 'M': '[AC]', 'B': '[CGT]', 'D': '[AGT]',
                   'H': '[ACT]', 'V': '[ACG]', 'N': '[ACGT]'}
-
-    for seq in args.SEQ:
-        seq = seq.upper()
-        for char in seq:
-            if char not in iupac_dict:
-                print('Unknown input characters replaced with "#"')
 
     for seq in args.SEQ:
         seq = seq.upper()
