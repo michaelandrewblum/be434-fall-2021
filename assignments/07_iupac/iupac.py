@@ -33,10 +33,14 @@ def get_args():
     args = parser.parse_args()
 
     for seq in args.SEQ:
+        invalid = set()
         seq = seq.upper()
         for char in seq:
             if char not in 'ACGTURYSWKMBDHVN':
-                parser.error(f'Unknown character ("{char}") in input sequence')
+                invalid.add(char)
+
+    if len(invalid) != 0:
+        parser.error(f'Unknown character(s) {sorted(invalid)} in input sequence')
 
     return args
 
