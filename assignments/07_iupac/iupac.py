@@ -9,8 +9,8 @@ import argparse
 import sys
 import os
 
-# Homework assignment passes all test in test suite but also added ability to
-# handle lowercase numbers, invalid characters, printing errors to file or
+# Homework assignment passes all tests in test suite but also has added ability
+# to handle lowercase letters, invalid characters, printing errors to file or
 # stdout, and allowing strings, files, or both as inputs
 
 # Try:
@@ -86,7 +86,7 @@ def main():
     # create regex strings from input sequences
     for seq in sequences:
 
-        seq = seq.upper()  # handle sequences with lowercase characters
+        seq = seq.upper()   # handle sequences with lowercase characters
 
         regex = ''.join([iupac_dict.get(char, '-') for char in seq])
 
