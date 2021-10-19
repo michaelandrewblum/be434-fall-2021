@@ -9,6 +9,13 @@ import argparse
 import sys
 import os
 
+# Homework assignment passes all test in test suite but also added ability to
+# handle lowercase numbers, invalid characters, printing errors to file or
+# stdout, and allowing strings, files, or both as inputs
+
+# Try:
+# $ python3 iupac.py ARCG DcYw sequences.txt ACGQ (-o out.txt) (-e err.txt)
+
 
 # --------------------------------------------------
 def get_args():
@@ -18,7 +25,7 @@ def get_args():
         description='Expand IUPAC codes',
         formatter_class=argparse.ArgumentDefaultsHelpFormatter)
 
-    parser.add_argument('SEQ',
+    parser.add_argument('seq',
                         metavar='SEQ',
                         nargs='+',
                         help='Input sequence(s)')
@@ -30,19 +37,14 @@ def get_args():
                         type=argparse.FileType('wt'),
                         default=sys.stdout)
 
-    args = parser.parse_args()
+    parser.add_argument('-e',
+                        '--errfile',
+                        help='Error filename',
+                        metavar='FILE',
+                        type=argparse.FileType('wt'),
+                        default=sys.stderr)
 
-    for seq in args.SEQ:
-        invalid = set()
-        seq = seq.upper()
-        for char in seq:
-            if char not in 'ACGTURYSWKMBDHVN':
-                invalid.add(char)
-
-    if len(invalid) != 0:
-        parser.error(f'Unknown char(s) {sorted(invalid)} in input sequence')
-
-    return args
+    return parser.parse_args()
 
 
 # --------------------------------------------------
@@ -51,20 +53,61 @@ def main():
 
     args = get_args()
 
-    iupac_dict = {'A': 'A', 'C': 'C', 'G': 'G', 'T': 'T', 'U': 'U',
-                  'R': '[AG]', 'Y': '[CT]', 'S': '[GC]', 'W': '[AT]',
-                  'K': '[GT]', 'M': '[AC]', 'B': '[CGT]', 'D': '[AGT]',
-                  'H': '[ACT]', 'V': '[ACG]', 'N': '[ACGT]'}
+    iupac_dict = {
+        'A': 'A',
+        'C': 'C',
+        'G': 'G',
+        'T': 'T',
+        'U': 'U',
+        'R': '[AG]',
+        'Y': '[CT]',
+        'S': '[GC]',
+        'W': '[AT]',
+        'K': '[GT]',
+        'M': '[AC]',
+        'B': '[CGT]',
+        'D': '[AGT]',
+        'H': '[ACT]',
+        'V': '[ACG]',
+        'N': '[ACGT]'
+    }
 
-    for seq in args.SEQ:
-        seq = seq.upper()
-        regex = ''
-        for char in seq:
-            regex += iupac_dict.get(char)
-        print(seq, regex, file=args.outfile)
+    # initialize list of sequences
+    sequences = []
 
+    # add to list all sequences input as string or files
+    for sequence in args.seq:
+        if os.path.isfile(sequence):
+            with open(sequence, encoding='utf-8') as fh:
+                sequences.extend(fh.read().split())
+        else:
+            sequences.append(sequence)
+
+    # create regex strings from input sequences
+    for seq in sequences:
+
+        seq = seq.upper()  # handle sequences with lowercase characters
+
+        regex = ''.join([iupac_dict.get(char, '-') for char in seq])
+
+        # if invalid chars in sequence print error to stderr or to file
+        if '-' in regex:
+            errlist = [base for base in seq if base not in iupac_dict]
+            errors = ', '.join(errlist)
+            print(f'Unknown base(s) ({errors}) in sequence "{seq}"',
+                  file=args.errfile)
+
+        # print sequence and regex string to stdout or to file
+        else:
+            print(seq, regex, file=args.outfile)
+
+    # message about printing output to file
     if os.path.isfile(args.outfile.name):
         print(f'Done, see output in "{args.outfile.name}"')
+
+    # message about printing errors to file
+    if os.path.isfile(args.errfile.name):
+        print(f'Error file generated, see errors in "{args.errfile.name}"')
 
 
 # --------------------------------------------------
