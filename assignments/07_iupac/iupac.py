@@ -8,6 +8,7 @@ Purpose: Expanding DNA IUPAC Codes into Regular Expressions
 import argparse
 import sys
 import os
+# from subprocess import getstatusoutput
 
 # Homework assignment passes all tests in test suite but also has added ability
 # to handle lowercase letters, invalid characters, printing errors to file or
@@ -108,6 +109,17 @@ def main():
     # message about printing errors to file
     if os.path.isfile(args.errfile.name):
         print(f'Error file generated, see errors in "{args.errfile.name}"')
+
+
+# --------------------------------------------------
+# def test_lowercase():
+#     """Test for lowercase input"""
+
+#     prg = './iupac.py'
+#     seq = 'ACtg'
+#     rv, out = getstatusoutput(f'{prg} {seq}')
+#     assert rv == 0
+#     assert out == 'ACTG ACTG'
 
 
 # --------------------------------------------------
