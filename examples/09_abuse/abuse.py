@@ -6,6 +6,7 @@ Purpose: Abuse, Please!
 """
 
 import argparse
+import random
 
 
 # --------------------------------------------------
@@ -37,7 +38,15 @@ def get_args():
                         type=int,
                         default=None)
 
-    return parser.parse_args()
+    args = parser.parse_args()
+
+    if args.adjectives <= 0:
+        parser.error(f'--adjectives "{args.adjectives}" must be > 0')
+
+    if args.number <= 0:
+        parser.error(f'--number "{args.number}" must be > 0')
+
+    return args
 
 
 # --------------------------------------------------
@@ -46,19 +55,35 @@ def main():
 
     args = get_args()
 
-    text = open('insult_adj.txt', 'wt')
+    random.seed(args.seed)
 
-    for line in text:
-        print(line)
+    adj_list = """
+    bankrupt base caterwauling corrupt cullionly detestable dishonest false
+    filthsome filthy foolish foul gross heedless indistinguishable infected
+    insatiate irksome lascivious lecherous loathsome lubbery old peevish
+    rascaly rotten ruinous scurilous scurvy slanderous sodden-witted
+    thin-faced toad-spotted unmannered vile wall-eyed
+    """.split()
 
-    lookup = []
-    
-    
+    noun_list = """
+    Judas Satan ape ass barbermonger beggar block boy braggart butt
+    carbuncle coward coxcomb cur dandy degenerate fiend fishmonger fool
+    gull harpy jack jolthead knave liar lunatic maw milksop minion
+    ratcatcher recreant rogue scold slave swine traitor varlet villain worm
+    """.split()
 
-    text.close()
+    for _ in range(args.number):
 
+        adj = []
 
-    
+        for _ in range(args.adjectives):
+            adj.append(random.choice(adj_list))
+
+        adj = ', '.join(adj)
+
+        noun = random.choice(noun_list)
+
+        print(f'You {adj} {noun}!')
 
 
 # --------------------------------------------------
