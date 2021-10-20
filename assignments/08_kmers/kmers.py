@@ -68,7 +68,7 @@ def main():
     for kmer in common_kmers:
         kmer_counts[kmer] = (kmers_file1.count(kmer), kmers_file2.count(kmer))
 
-    for kmer in common_kmers:
+    for kmer in sorted(common_kmers):
         print(f'{kmer:10} {kmer_counts[kmer][0]:5} {kmer_counts[kmer][1]:5}')
 
 
