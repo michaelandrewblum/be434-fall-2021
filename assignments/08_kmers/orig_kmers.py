@@ -48,16 +48,19 @@ def main():
 
     args = get_args()
 
-    kmerdict1 = count_kmers(args.file1, args.kmer)
-    kmerdict2 = count_kmers(args.file2, args.kmer)
+    kmer_counts = {}
 
-    common_kmers = {}
+    kmers_file1, unique_kmers1 = unique_kmers(args.file1, args.kmer)
 
-    for kmer in kmerdict1.keys() & kmerdict2.keys():
-        common_kmers[kmer] = (kmerdict1[kmer], kmerdict2[kmer])
+    kmers_file2, unique_kmers2 = unique_kmers(args.file2, args.kmer)
 
-    for kmer, count in common_kmers.items():
-        print(f'{kmer:10} {count[0]:5} {count[1]:5}')
+    common_kmers = unique_kmers1.intersection(unique_kmers2)
+
+    for kmer in common_kmers:
+        kmer_counts[kmer] = (kmers_file1.count(kmer), kmers_file2.count(kmer))
+
+    for kmer in sorted(common_kmers):
+        print(f'{kmer:10} {kmer_counts[kmer][0]:5} {kmer_counts[kmer][1]:5}')
 
 
 # --------------------------------------------------
@@ -69,17 +72,18 @@ def find_kmers(seq, k):
 
 
 # --------------------------------------------------
-def count_kmers(fh: TextIO, k: int):
-    """ count k-mers in file """
+def unique_kmers(fh: TextIO, k: int):
+    """ Find unique k-mers in file """
 
-    kmerdict = {}
+    kmers = []
+    unique = set()
 
     for line in fh:
         for word in line.rstrip().split():
-            for kmer in find_kmers(word, k):
-                kmerdict[kmer] = kmerdict.get(kmer, 0) + 1
+            kmers.extend(find_kmers(word, k))
+            unique.update(find_kmers(word, k))
 
-    return kmerdict
+    return kmers, unique
 
 
 # --------------------------------------------------
