@@ -36,7 +36,7 @@ def get_args():
 
     args = parser.parse_args()
 
-    if args.kmer <= 0:
+    if args.kmer < 1:
         parser.error(f'--kmer "{args.kmer}" must be > 0')
 
     return args
@@ -61,7 +61,7 @@ def main():
 
 
 # --------------------------------------------------
-def find_kmers(seq, k):
+def find_kmers(seq: str, k: int) -> list:
     """ Find k-mers in string """
 
     n = len(seq) - k + 1
@@ -69,7 +69,7 @@ def find_kmers(seq, k):
 
 
 # --------------------------------------------------
-def count_kmers(fh: TextIO, k: int):
+def count_kmers(fh: TextIO, k: int) -> dict:
     """ count k-mers in file """
 
     kmerdict = {}
