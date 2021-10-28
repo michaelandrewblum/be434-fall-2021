@@ -95,5 +95,13 @@ def test_find_kmers():
 
 
 # --------------------------------------------------
+def test_count_kmers():
+    """ Test count_k-mers """
+
+    with open('./expected/foo_bar.k2', encoding='utf-8') as fh:
+        expected = sorted(fh.read().splitlines())
+        assert sorted(count_kmers('./inputs/foo', 2)) == expected
+
+# --------------------------------------------------
 if __name__ == '__main__':
     main()
