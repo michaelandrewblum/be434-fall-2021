@@ -8,7 +8,7 @@ Purpose: Split interleaved/paired reads
 import argparse
 import os
 import errno
-from shutil import rmtree
+from pathlib import Path
 from Bio import SeqIO
 
 
@@ -42,32 +42,45 @@ def main():
 
     args = get_args()
 
-    input_files = []
-    file_names = []
+    # outdir_name = './split'
 
-    for file in args.files:
-        input_files.append(file)
-        file_names.append(os.path.splitext(file.name))
+    # directory = Path(outdir_name)
 
-    fwd_out = os.path.join(args.outdir.name, os.path.basename(file_names[0][0]) + '_1' + file_names[0][1])
-    rev_out = os.path.join(args.outdir.name, os.path.basename(file_names[0][0]) + '_2' + file_names[0][1])
+    # if not directory.is_dir():
+    #     directory.mkdir(exist_ok=True)
 
-    for file in input_files:
-        input_seqs = list(SeqIO.parse(file, 'fasta'))
+    if not os.path.isdir('./split'):
+        os.mkdir('./split')
 
-    fwd_seq_list = []
-    rev_seq_list = []
 
-    for num, seq in enumerate(input_seqs):
-        if num % 2 == 0:
-            fwd_seq_list.append([seq.id, str(seq.seq)])
-        else:
-            rev_seq_list.append([seq.id, str(seq.seq)])
+    # os.makedirs('./split', exist_ok=True)
 
-    with open(fwd_out, 'wt') as fh_fwd:
-        for seq in fwd_seq_list:
-            fh_fwd.write(seq[0])
-            fh_fwd.write(seq[1])
+    # input_files = []
+    # file_names = []
+
+    # for file in args.files:
+    #     input_files.append(file)
+    #     file_names.append(os.path.splitext(file.name))
+
+    # fwd_out = os.path.join(args.outdir.name, os.path.basename(file_names[0][0]) + '_1' + file_names[0][1])
+    # rev_out = os.path.join(args.outdir.name, os.path.basename(file_names[0][0]) + '_2' + file_names[0][1])
+
+    # for file in input_files:
+    #     input_seqs = list(SeqIO.parse(file, 'fasta'))
+
+    # fwd_seq_list = []
+    # rev_seq_list = []
+
+    # for num, seq in enumerate(input_seqs):
+    #     if num % 2 == 0:
+    #         fwd_seq_list.append([seq.id, str(seq.seq)])
+    #     else:
+    #         rev_seq_list.append([seq.id, str(seq.seq)])
+
+    # with open(fwd_out, 'wt') as fh_fwd:
+    #     for seq in fwd_seq_list:
+    #         fh_fwd.write(seq[0])
+    #         fh_fwd.write(seq[1])
 
         
 
