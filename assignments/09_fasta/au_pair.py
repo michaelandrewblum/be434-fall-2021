@@ -29,7 +29,7 @@ def get_args():
     parser.add_argument('-o',
                         '--outdir',
                         help='Output directory',
-                        metavar='str',
+                        metavar='DIR',
                         default='split')
 
     return parser.parse_args()
@@ -41,40 +41,54 @@ def main():
 
     args = get_args()
 
-    print(args)
-    print(os.path.isdir(args.outdir))
-    print(f'"{os.path.dirname(args.outdir)}"')
+    # print(args)
+    # print(os.path.isdir(args.outdir))
+    # print(f'>>> "{args.outdir}"')
 
     if not os.path.isdir(args.outdir):
         os.makedirs(args.outdir)
 
-    # input_files = []
-    # file_names = []
+    input_files = []
+    file_names = []
 
-    # for file in args.files:
-    #     input_files.append(file)
-    #     file_names.append(os.path.splitext(file.name))
+    for file in args.files:
+        input_files.append(file)
+        file_names.append(os.path.splitext(file.name))
 
-    # fwd_out = os.path.join(args.outdir, os.path.basename(file_names[0][0]) + '_1' + file_names[0][1])
-    # rev_out = os.path.join(args.outdir, os.path.basename(file_names[0][0]) + '_2' + file_names[0][1])
+    # print(input_files)
+    # print(file_names)
 
-    # for file in input_files:
-    #     input_seqs = list(SeqIO.parse(file, 'fasta'))
+    for file in input_files:
+        basename = os.path.basename(file.name)
+        root, ext = os.path.splitext(basename)
 
-    # fwd_seq_list = []
-    # rev_seq_list = []
+        fwd_out = os.path.join(args.outdir, root + '_1' + ext)
+        rev_out = os.path.join(args.outdir, root + '_2' + ext)
+        
+        reader = list(SeqIO.parse(file.name, 'fasta'))
 
-    # for num, seq in enumerate(input_seqs):
-    #     if num % 2 == 0:
-    #         fwd_seq_list.append([seq.id, str(seq.seq)])
-    #     else:
-    #         rev_seq_list.append([seq.id, str(seq.seq)])
+        fwd_seq_list = []
+        rev_seq_list = []
 
-    # with open(fwd_out, 'wt') as fh_fwd:
-    #     for seq in fwd_seq_list:
-    #         fh_fwd.write(seq[0])
-    #         fh_fwd.write(seq[1])
+        for num, rec in enumerate(reader):
+            if num % 2 == 0:
+                fwd_seq_list.append(('>' + rec.description, str(rec.seq)))
+            else:
+                rev_seq_list.append(('>' + rec.description, str(rec.seq)))
 
+        # print(len(fwd_seq_list), len(rev_seq_list), len(reader))
+
+        with open(fwd_out, 'wt') as fh_fwd:
+            for seq in fwd_seq_list:
+                fh_fwd.write(seq[0] + '\n')
+                fh_fwd.write(seq[1] + '\n')
+
+        with open(rev_out, 'wt') as fh_rev:
+            for seq in rev_seq_list:
+                fh_rev.write(seq[0] + '\n')
+                fh_rev.write(seq[1] + '\n')
+
+    print(f'Done, see output in "{args.outdir}"')
         
 
 # --------------------------------------------------
