@@ -28,9 +28,8 @@ def get_args():
 
     parser.add_argument('-o',
                         '--outdir',
-                        help='Output director',
-                        metavar='FILE',
-                        type=argparse.FileType('wt'),
+                        help='Output directory',
+                        metavar='str',
                         default='split')
 
     return parser.parse_args()
@@ -42,45 +41,39 @@ def main():
 
     args = get_args()
 
-    # outdir_name = './split'
+    print(args)
+    print(os.path.isdir(args.outdir))
+    print(f'"{os.path.dirname(args.outdir)}"')
 
-    # directory = Path(outdir_name)
+    if not os.path.isdir(args.outdir):
+        os.makedirs(args.outdir)
 
-    # if not directory.is_dir():
-    #     directory.mkdir(exist_ok=True)
+    input_files = []
+    file_names = []
 
-    if not os.path.isdir('./split'):
-        os.mkdir('./split')
+    for file in args.files:
+        input_files.append(file)
+        file_names.append(os.path.splitext(file.name))
 
+    fwd_out = os.path.join(args.outdir, os.path.basename(file_names[0][0]) + '_1' + file_names[0][1])
+    rev_out = os.path.join(args.outdir, os.path.basename(file_names[0][0]) + '_2' + file_names[0][1])
 
-    # os.makedirs('./split', exist_ok=True)
+    for file in input_files:
+        input_seqs = list(SeqIO.parse(file, 'fasta'))
 
-    # input_files = []
-    # file_names = []
+    fwd_seq_list = []
+    rev_seq_list = []
 
-    # for file in args.files:
-    #     input_files.append(file)
-    #     file_names.append(os.path.splitext(file.name))
+    for num, seq in enumerate(input_seqs):
+        if num % 2 == 0:
+            fwd_seq_list.append([seq.id, str(seq.seq)])
+        else:
+            rev_seq_list.append([seq.id, str(seq.seq)])
 
-    # fwd_out = os.path.join(args.outdir.name, os.path.basename(file_names[0][0]) + '_1' + file_names[0][1])
-    # rev_out = os.path.join(args.outdir.name, os.path.basename(file_names[0][0]) + '_2' + file_names[0][1])
-
-    # for file in input_files:
-    #     input_seqs = list(SeqIO.parse(file, 'fasta'))
-
-    # fwd_seq_list = []
-    # rev_seq_list = []
-
-    # for num, seq in enumerate(input_seqs):
-    #     if num % 2 == 0:
-    #         fwd_seq_list.append([seq.id, str(seq.seq)])
-    #     else:
-    #         rev_seq_list.append([seq.id, str(seq.seq)])
-
-    # with open(fwd_out, 'wt') as fh_fwd:
-    #     for seq in fwd_seq_list:
-    #         fh_fwd.write(seq[0])
-    #         fh_fwd.write(seq[1])
+    with open(fwd_out, 'wt') as fh_fwd:
+        for seq in fwd_seq_list:
+            fh_fwd.write(seq[0])
+            fh_fwd.write(seq[1])
 
         
 
