@@ -42,14 +42,14 @@ def main():
     if not os.path.isdir(args.outdir):
         os.makedirs(args.outdir)
 
-    input_files = []
-    file_names = []
+    # input_files = []
+    # file_names = []
+
+    # for file in args.files:
+    #     input_files.append(file)
+    #     file_names.append(os.path.splitext(file.name))
 
     for file in args.files:
-        input_files.append(file)
-        file_names.append(os.path.splitext(file.name))
-
-    for file in input_files:
         basename = os.path.basename(file.name)
         root, ext = os.path.splitext(basename)
 
