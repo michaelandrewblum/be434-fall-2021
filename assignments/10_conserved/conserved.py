@@ -35,13 +35,13 @@ def main():
 
     for line in args.file:
         print(line.rstrip())
-        for i, num in enumerate(line.rstrip()):
-            seqs[i].append(num)
+        for i, char in enumerate(line.rstrip()):
+            seqs[i].append(char)
 
     result = ''
 
-    for value in seqs.values():
-        if len(set(value)) == 1:
+    for chars in seqs.values():
+        if all(char == chars[0] for char in chars):
             result += '|'
         else:
             result += 'X'
