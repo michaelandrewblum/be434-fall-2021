@@ -42,14 +42,14 @@ def main():
     if not os.path.isdir(args.outdir):
         os.makedirs(args.outdir)
 
-    for file in args.files:
-        basename = os.path.basename(file.name)
+    for fh in args.files:
+        basename = os.path.basename(fh.name)
         root, ext = os.path.splitext(basename)
 
         fwd_out = os.path.join(args.outdir, root + '_1' + ext)
         rev_out = os.path.join(args.outdir, root + '_2' + ext)
 
-        fwd_seq_list, rev_seq_list = interleaved_fasta(file)
+        fwd_seq_list, rev_seq_list = interleaved_fasta(fh)
 
         write_fasta(fwd_seq_list, fwd_out)
         write_fasta(rev_seq_list, rev_out)
@@ -71,7 +71,7 @@ def write_fasta(sequences, outfile):
 def interleaved_fasta(fh):
     """ Create sequences for interleaved fasta data """
 
-    reader = list(SeqIO.parse(fh.name, 'fasta'))
+    reader = list(SeqIO.parse(fh, 'fasta'))
     fwd_seq_list = []
     rev_seq_list = []
 
