@@ -32,31 +32,31 @@ def main():
     args = get_args()
 
     if not os.path.isfile(args.str):
-        bases = [''.join(grp) for num, grp in groupby(args.str)]
-        newseq = ''
-        for base in bases:
-            if len(base) == 1:
-                newseq += base
-            else:
-                newseq += base[0]
-                newseq += str(len(base))
-        print(newseq)
+        print(group_repeated(args.str))
     else:
         with open(args.str, 'rt', encoding='utf-8') as fh:
             for line in fh:
                 seq = line.rstrip()
 
-                bases = [''.join(grp) for num, grp in groupby(seq)]
+                print(group_repeated(seq))
 
-                newseq = ''
-                for base in bases:
-                    if len(base) == 1:
-                        newseq += base
-                    else:
-                        newseq += base[0]
-                        newseq += str(len(base))
 
-                print(newseq)
+# --------------------------------------------------
+def group_repeated(input_str: str) -> str:
+    """ group repeated characters in string as character followed
+        by number of repititions, e.g. AAA is replaced by A3 """
+
+    repeated = [''.join(group) for _, group in groupby(input_str)]
+
+    newstr = ''
+    for chars in repeated:
+        if len(chars) == 1:
+            newstr += chars
+        else:
+            newstr += chars[0]
+            newstr += str(len(chars))
+
+    return newstr
 
 
 # --------------------------------------------------
