@@ -36,7 +36,7 @@ def get_args():
 
 # --------------------------------------------------
 def main():
-    """Concatenate files with enumerate"""
+    """ Reverse concatenate files """
 
     args = get_args()
 
