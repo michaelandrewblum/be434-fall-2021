@@ -32,23 +32,6 @@ def get_args():
     return parser.parse_args()
 
 
-
-# --------------------------------------------------
-# def main():
-#     """Concatenate files"""
-#
-    # args = get_args()
-
-    # for arg in args.files:
-    #     line_num = 1
-    #     for line in arg:
-    #         if args.number:
-    #             print('{:6}{}{}'.format(line_num, '\t', line.rstrip()))
-    #         else:
-    #             print(line.rstrip())
-    #         line_num += 1
-
-
 # --------------------------------------------------
 def main():
     """Concatenate files with enumerate"""
@@ -61,8 +44,6 @@ def main():
                 print('{:6}{}{}'.format(line_num, '\t', line.rstrip()))
             else:
                 print(line.rstrip())
-        print(type(arg.read()))
-    
 
 
 # --------------------------------------------------
